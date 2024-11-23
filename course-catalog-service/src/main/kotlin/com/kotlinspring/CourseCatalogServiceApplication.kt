@@ -1,4 +1,4 @@
-package org.example.coursecatalogservice
+package com.kotlinspring
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
