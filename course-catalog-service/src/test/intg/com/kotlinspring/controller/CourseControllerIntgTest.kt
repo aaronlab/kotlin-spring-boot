@@ -63,4 +63,46 @@ class CourseControllerIntgTest {
 
         assertEquals(courseEntityList().size, courseDTOs!!.size)
     }
+
+    @Test
+    fun updateCourse() {
+        // Existing course
+        val course = courseEntityList().first()
+        courseRepository.save(course)
+
+        // Update CourseDTO
+        val updateCourseDTO = course.copy().let {
+            it.name = "${it.name} - Updated"
+            it
+        }
+
+        val updatedCourse = webTestClient
+            .put()
+            .uri("/v1/courses/${course.id}")
+            .bodyValue(updateCourseDTO)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(CourseDTO::class.java)
+            .returnResult()
+            .responseBody
+
+        assertEquals(updateCourseDTO.name, updatedCourse!!.name)
+    }
+
+    @Test
+    fun deleteCourse() {
+        val course = courseEntityList().first()
+        courseRepository.save(course)
+
+        val deletedCourse = webTestClient
+            .delete()
+            .uri("/v1/courses/${course.id}")
+            .exchange()
+            .expectStatus().isNoContent
+            .expectBody(Void::class.java)
+            .returnResult()
+            .responseBody
+
+        Assertions.assertNull(deletedCourse)
+    }
 }

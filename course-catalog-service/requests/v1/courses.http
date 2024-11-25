@@ -19,3 +19,7 @@ Content-Type: application/json
   "name": "Math 101 Updated",
   "category": "Math Updated"
 }
+
+
+### DELETE /v1/courses/1
+DELETE http://localhost:8080/v1/courses/1
