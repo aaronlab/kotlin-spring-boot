@@ -9,3 +9,13 @@ Content-Type: application/json
 
 ### GET /v1/courses
 GET http://localhost:8080/v1/courses
+
+
+### PUT /v1/courses/1
+PUT http://localhost:8080/v1/courses/1
+Content-Type: application/json
+
+{
+  "name": "Math 101 Updated",
+  "category": "Math Updated"
+}
