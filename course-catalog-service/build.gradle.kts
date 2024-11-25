@@ -32,6 +32,7 @@ dependencies {
 
     // database
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
     runtimeOnly("com.h2database:h2")
     // runtimeOnly("org.postgresql:postgresql")
 
