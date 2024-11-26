@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import kotlin.test.assertEquals
 
 @WebMvcTest(controllers = [CourseController::class])
 @ActiveProfiles("test")
@@ -65,6 +66,24 @@ class CourseControllerUnitTest {
         Assertions.assertTrue {
             response!!.contains("must not be blank")
         }
+    }
+
+    @Test
+    fun addCourseRuntimeException() {
+        val errorMessage = "Unexpected error occurred"
+        every { courseServiceMock.addCourse(any()) } throws RuntimeException(errorMessage)
+
+        val response = webTestClient
+            .post()
+            .uri("/v1/courses")
+            .bodyValue(courseEntityList().first())
+            .exchange()
+            .expectStatus().is5xxServerError
+            .expectBody(String::class.java)
+            .returnResult()
+            .responseBody
+
+        assertEquals(errorMessage, response)
     }
 
     @Test
