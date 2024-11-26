@@ -43,4 +43,29 @@ class CourseControllerUnitTest {
             savedCourseDTO!!.id != null
         }
     }
+
+    @Test
+    fun retrieveCourses() {
+        val mockCourseDTOs = listOf(
+            courseDTO(id = 1),
+            courseDTO(id = 2),
+            courseDTO(id = 3)
+        )
+
+        every { courseServiceMock.retrieveCourses() }.returnsMany(
+            mockCourseDTOs
+        )
+
+        val courseDTOs = webTestClient
+            .get()
+            .uri("/v1/courses")
+            .exchange()
+            .expectStatus().isOk
+            .expectBodyList(CourseDTO::class.java)
+            .returnResult()
+            .responseBody
+
+        Assertions.assertEquals(mockCourseDTOs.size, courseDTOs!!.size)
+    }
+
 }
