@@ -52,12 +52,19 @@ class CourseControllerUnitTest {
 
         val courseDTO = CourseDTO(null, "", "")
 
-        webTestClient
+        val response = webTestClient
             .post()
             .uri("/v1/courses")
             .bodyValue(courseDTO)
             .exchange()
             .expectStatus().isBadRequest
+            .expectBody(String::class.java)
+            .returnResult()
+            .responseBody
+
+        Assertions.assertTrue {
+            response!!.contains("must not be blank")
+        }
     }
 
     @Test
