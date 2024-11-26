@@ -68,4 +68,27 @@ class CourseControllerUnitTest {
         Assertions.assertEquals(mockCourseDTOs.size, courseDTOs!!.size)
     }
 
+    @Test
+    fun updateCourse() {
+        val course = courseDTO(id = 100)
+        val updateCourseDTO = courseDTO(
+            id = course.id,
+            name = "${course.name} - Updated",
+        )
+
+        every { courseServiceMock.updateCourse(any(), any()) } returns updateCourseDTO
+
+        val updatedCourse = webTestClient
+            .put()
+            .uri("/v1/courses/${course.id}", course.id)
+            .bodyValue(updateCourseDTO)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(CourseDTO::class.java)
+            .returnResult()
+            .responseBody
+
+        Assertions.assertEquals(updateCourseDTO.name, updatedCourse!!.name)
+    }
+
 }
