@@ -94,7 +94,7 @@ class CourseControllerUnitTest {
             courseDTO(id = 3)
         )
 
-        every { courseServiceMock.retrieveCourses() }.returnsMany(
+        every { courseServiceMock.retrieveCourses(any()) }.returnsMany(
             mockCourseDTOs
         )
 

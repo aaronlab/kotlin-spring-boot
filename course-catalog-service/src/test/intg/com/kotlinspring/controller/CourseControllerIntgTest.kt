@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.util.UriComponentsBuilder
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -62,6 +63,31 @@ class CourseControllerIntgTest {
             .responseBody
 
         assertEquals(courseEntityList().size, courseDTOs!!.size)
+    }
+
+    @Test
+    fun retrieveAllCoursesByName() {
+        val courseName = "SpringBoot"
+
+        val uri = UriComponentsBuilder.fromUriString("/v1/courses")
+            .queryParam("courseName", courseName)
+            .toUriString()
+
+        val courseDTOs = webTestClient
+            .get()
+            .uri(uri)
+            .exchange()
+            .expectStatus().isOk
+            .expectBodyList(CourseDTO::class.java)
+            .returnResult()
+            .responseBody
+
+        assertEquals(
+            courseEntityList()
+                .filter { it.name.contains(courseName, ignoreCase = true) }
+                .size,
+            courseDTOs!!.size
+        )
     }
 
     @Test
