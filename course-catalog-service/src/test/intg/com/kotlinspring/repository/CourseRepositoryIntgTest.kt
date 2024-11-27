@@ -35,4 +35,17 @@ class CourseRepositoryIntgTest {
         )
     }
 
+    @Test
+    fun findCoursesByName() {
+        val courses = courseRepository.findCoursesByName("SpringBoot")
+
+        assert(courses.isNotEmpty())
+        assertEquals(
+            courseEntityList()
+                .filter { it.name.contains("SpringBoot", ignoreCase = true) }
+                .size,
+            courses.size
+        )
+    }
+
 }
