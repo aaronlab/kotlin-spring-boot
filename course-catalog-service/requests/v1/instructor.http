@@ -1,0 +1,7 @@
+### POST /v1/instructors
+POST http://localhost:8080/v1/instructors
+Content-Type: application/json
+
+{
+  "name": "Aaron Lee"
+}
