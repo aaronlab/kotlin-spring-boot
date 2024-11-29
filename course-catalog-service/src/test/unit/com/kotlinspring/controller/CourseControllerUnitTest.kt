@@ -32,10 +32,17 @@ class CourseControllerUnitTest {
     fun addCourse() {
         every { courseServiceMock.addCourse(any()) } returns courseDTO(id = 1)
 
+        val courseDTO = CourseDTO(
+            null,
+            "Build RestFul APIs using SpringBoot and Kotlin",
+            "Development",
+            1
+        )
+
         val savedCourseDTO = webTestClient
             .post()
             .uri("/v1/courses")
-            .bodyValue(courseEntityList().first())
+            .bodyValue(courseDTO)
             .exchange()
             .expectStatus().isCreated
             .expectBody(CourseDTO::class.java)
@@ -49,7 +56,12 @@ class CourseControllerUnitTest {
 
     @Test
     fun addCourseValidation() {
-        every { courseServiceMock.addCourse(any()) } returns courseDTO(id = 1)
+        every { courseServiceMock.addCourse(any()) } returns CourseDTO(
+            1,
+            "Build RestFul APIs using SpringBoot and Kotlin",
+            "Development",
+            1
+        )
 
         val courseDTO = CourseDTO(null, "", "")
 
@@ -73,10 +85,17 @@ class CourseControllerUnitTest {
         val errorMessage = "Unexpected error occurred"
         every { courseServiceMock.addCourse(any()) } throws RuntimeException(errorMessage)
 
+        val courseDTO = CourseDTO(
+            null,
+            "Build RestFul APIs using SpringBoot and Kotlin",
+            "Development",
+            1
+        )
+
         val response = webTestClient
             .post()
             .uri("/v1/courses")
-            .bodyValue(courseEntityList().first())
+            .bodyValue(courseDTO)
             .exchange()
             .expectStatus().is5xxServerError
             .expectBody(String::class.java)
