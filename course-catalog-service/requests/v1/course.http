@@ -4,7 +4,8 @@ Content-Type: application/json
 
 {
   "name": "Math 101",
-  "category": "Math"
+  "category": "Math",
+  "instructorId": 1
 }
 
 ### GET /v1/courses
