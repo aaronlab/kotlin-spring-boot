@@ -5,21 +5,24 @@ import com.kotlinspring.dto.InstructorDTO
 import com.kotlinspring.entity.Course
 import com.kotlinspring.entity.Instructor
 
-fun courseEntityList() = listOf(
+fun courseEntityList(instructor: Instructor? = null) = listOf(
     Course(
         null,
         "Build RestFul APIs using SpringBoot and Kotlin",
-        "Development"
+        "Development",
+        instructor
     ),
     Course(
         null,
         "Build Reactive Microservices using Spring WebFlux/SpringBoot",
-        "Development"
+        "Development",
+        instructor
     ),
     Course(
         null,
         "Wiremock for Java Developers",
-        "Development"
+        "Development",
+        instructor
     )
 )
 
@@ -55,3 +58,5 @@ fun instructorDTO(
     id,
     name
 )
+
+fun instructorEntity(name: String = "John Doe") = Instructor(null, name)
